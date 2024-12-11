@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Stock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gestion de Stock</h1>
+    <form id="productForm">
+        <div class="form-group">
+            <label for="category">Catégorie:</label>
+            <select id="category" required>
+                <option value="">Sélectionnez</option>
+                <option value="Électricité">Électricité</option>
+                <option value="Luminaire">Luminaire</option>
+                <option value="Jardinage">Jardinage</option>
+                <option value="Outillage">Outillage</option>
+                <option value="Sanitaire">Sanitaire</option>
+                <option value="Quincaillerie">Quincaillerie</option>
+                <option value="Peinture">Peinture</option>
+                <option value="Drougrie">Drougrie</option>
+                <option value="Démarque">Démarque</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="productName">Nom du Produit:</label>
+            <input type="text" id="productName" required>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantité:</label>
+            <input type="number" id="quantity" required>
+        </div>
+        <div class="form-group">
+            <label for="movement">Mouvement:</label>
+            <select id="movement" required>
+                <option value="">Sélectionnez</option>
+                <option value="Entrée">Entrée</option>
+                <option value="Sortie">Sortie</option>
+            </select>
+        </div>
+        <button type="submit">Ajouter</button>
+    </form>
+
+    <h2>Mouvements</h2>
+    <table id="movementTable">
+        <thead>
+            <tr>
+                <th>Catégorie</th>
+                <th>Nom du Produit</th>
+                <th>Quantité</th>
+                <th>Mouvement</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <button onclick="exportToExcel()">Exporter en Excel</button>
+
+    <script>
+        const productForm = document.getElementById('productForm');
+        const movementTableBody = document.querySelector('#movementTable tbody');
+
+        productForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const category = document.getElementById('category').value;
+            const productName = document.getElementById('productName').value;
+            const quantity = document.getElementById('quantity').value;
+            const movement = document.getElementById('movement').value;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${category}</td>
+                <td>${productName}</td>
+                <td>${quantity}</td>
+                <td>${movement}</td>
+            `;
+            movementTableBody.appendChild(row);
+
+            productForm.reset();
+        });
+
+        function exportToExcel() {
+            let table = document.getElementById('movementTable');
+            let rows = Array.from(table.rows).map(row => 
+                Array.from(row.cells).map(cell => cell.textContent).join(',')
+            ).join('\n');
+
+            let csvContent = 'data:text/csv;charset=utf-8,' + rows;
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'mouvements.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Simuler l'envoi par email (remplacer par une intégration serveur réelle)
+            alert('Fichier Excel généré et prêt à être envoyé par e-mail.');
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Stock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gestion de Stock</h1>
+    <form id="productForm">
+        <div class="form-group">
+            <label for="category">Catégorie:</label>
+            <select id="category" required>
+                <option value="">Sélectionnez</option>
+                <option value="Électricité">Électricité</option>
+                <option value="Luminaire">Luminaire</option>
+                <option value="Jardinage">Jardinage</option>
+                <option value="Outillage">Outillage</option>
+                <option value="Sanitaire">Sanitaire</option>
+                <option value="Quincaillerie">Quincaillerie</option>
+                <option value="Peinture">Peinture</option>
+                <option value="Drougrie">Drougrie</option>
+                <option value="Démarque">Démarque</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="productName">Nom du Produit:</label>
+            <input type="text" id="productName" required>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantité:</label>
+            <input type="number" id="quantity" required>
+        </div>
+        <div class="form-group">
+            <label for="movement">Mouvement:</label>
+            <select id="movement" required>
+                <option value="">Sélectionnez</option>
+                <option value="Entrée">Entrée</option>
+                <option value="Sortie">Sortie</option>
+            </select>
+        </div>
+        <button type="submit">Ajouter</button>
+    </form>
+
+    <h2>Mouvements</h2>
+    <table id="movementTable">
+        <thead>
+            <tr>
+                <th>Catégorie</th>
+                <th>Nom du Produit</th>
+                <th>Quantité</th>
+                <th>Mouvement</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <button onclick="exportToExcel()">Exporter en Excel</button>
+
+    <script>
+        const productForm = document.getElementById('productForm');
+        const movementTableBody = document.querySelector('#movementTable tbody');
+
+        productForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const category = document.getElementById('category').value;
+            const productName = document.getElementById('productName').value;
+            const quantity = document.getElementById('quantity').value;
+            const movement = document.getElementById('movement').value;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${category}</td>
+                <td>${productName}</td>
+                <td>${quantity}</td>
+                <td>${movement}</td>
+            `;
+            movementTableBody.appendChild(row);
+
+            productForm.reset();
+        });
+
+        function exportToExcel() {
+            let table = document.getElementById('movementTable');
+            let rows = Array.from(table.rows).map(row => 
+                Array.from(row.cells).map(cell => cell.textContent).join(',')
+            ).join('\n');
+
+            let csvContent = 'data:text/csv;charset=utf-8,' + rows;
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'mouvements.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Simuler l'envoi par email (remplacer par une intégration serveur réelle)
+            alert('Fichier Excel généré et prêt à être envoyé par e-mail.');
+        }
+    </script>
+</body>
+</html>
